@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Motion Frames</title>
+</head>
+<body>
+    <h1>Camera Movement Frames</h1>
+    {% for frame in frames %}
+        <img src="{{ url_for('static', filename='motion_frames/' + frame) }}" width="500">
+    {% endfor %}
+</body>
+</html>

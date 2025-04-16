@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CineScope - Analyze Scene</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload a Video for Analysis</h1>
+  <form id="uploadForm">
+    <input type="file" id="videoFile" name="file" accept="video/*" required>
+    <button type="submit">Analyze</button>
+  </form>
+
+  <h2>Generated Screenplay</h2>
+  <textarea id="screenplay" readonly></textarea>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const fileInput = document.getElementById("videoFile");
+      if (fileInput.files.length === 0) {
+        alert("Please upload a video file.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      try {
+        const response = await fetch("/analyze", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+        if (data.screenplay) {
+          document.getElementById("screenplay").value = data.screenplay;
+        } else {
+          alert("Error: " + (data.error || "Unknown error"));
+        }
+      } catch (err) {
+        console.error("Request failed:", err);
+        alert("An error occurred during upload.");
+      }
+    });
+  </script>
+</body>
+</html>
