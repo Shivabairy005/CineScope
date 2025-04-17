@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tutorials = {
   "Camera Movements": [
@@ -111,29 +112,38 @@ export default function Tutorial() {
 
       {/* Content - 80% */}
       <div className="w-4/5 p-6 overflow-y-auto">
-        <div className="grid gap-10">
-          {tutorials[activeTab]?.length > 0 ? (
-            tutorials[activeTab].map((item, index) => (
-              <div key={index}>
-                <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                <p className="text-gray-600 mb-2">{item.description}</p>
-                <div className="bg-black rounded overflow-hidden">
-                  <iframe
-                    width="100%"
-                    height="450"
-                    src={item.url}
-                    title={item.title}
-                    frameBorder="0"
-                    allowFullScreen
-                    className="w-full"
-                  ></iframe>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="grid gap-10"
+          >
+            {tutorials[activeTab]?.length > 0 ? (
+              tutorials[activeTab].map((item, index) => (
+                <div key={index}>
+                  <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
+                  <p className="text-gray-600 mb-2">{item.description}</p>
+                  <div className="bg-black rounded overflow-hidden">
+                    <iframe
+                      width="100%"
+                      height="450"
+                      src={item.url}
+                      title={item.title}
+                      frameBorder="0"
+                      allowFullScreen
+                      className="w-full"
+                    ></iframe>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 italic">No tutorials yet for this section.</p>
-          )}
-        </div>
+              ))
+            ) : (
+              <p className="text-gray-500 italic">No tutorials yet for this section.</p>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );
