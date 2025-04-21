@@ -159,7 +159,14 @@ export default function Home() {
                 {analysisInfo ? (
                   <>
                     <p><strong>Shot Type:</strong> {analysisInfo.shot_type}</p>
-                    <p><strong>Color Grading:</strong> {analysisInfo.color_grade}</p>
+                    <p><strong>Color Grading:</strong></p>
+                    {analysisInfo.color_swatch && (
+                      <img
+                        src={analysisInfo.color_swatch}
+                        alt="Color Swatch"
+                        className="mt-2 w-48 h-auto rounded border"
+                      />
+                    )}
                   </>
                 ) : (
                   <p className="text-gray-500 italic">Loading analysis...</p>
